@@ -1,9 +1,10 @@
 .Navbar{
     float: right;
     margin-left: 66px;
-    width: 94%;
+    width: 90%;
     height:100px ;
     border-bottom: 0.01px solid rgb(199, 199, 199);
+
     /* background-color: aqua; */
 }
 
@@ -27,18 +28,22 @@
   
 
 .Navbar  .Searchbox{
+    justify-content: space-around;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 50%;
     float: right;
-    /* background-color: blue; */
 }
 
 .Navbar  .Searchbox div{
     line-height: 100px;
 }
 
-.Navbar  .Searchbox div input{
+/* .Navbar  .Searchbox div input{
     margin-right: 50px;
     border-radius: 5px 5px 5px 5px;
     border: 1px solid grey;
     height: 30px;
     padding-inline-start: 10px;
-}
+} */

@@ -31,7 +31,7 @@ const Catolog = () => {
                         className="select-box"
                         style={{ backgroundColor: "rgb(248, 248, 248)", color: "rgb(187, 187, 187)" }}
                     >
-                        <select value={selectedValue} onChange={handleChange}>
+                        <select className='selectBox' value={selectedValue} onChange={handleChange}>
                             <option value="topsale">Top sale</option>
                             <option value="option2">Recent</option>
                         </select>
