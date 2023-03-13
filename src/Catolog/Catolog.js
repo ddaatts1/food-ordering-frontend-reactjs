@@ -9,7 +9,6 @@ const Catolog = () => {
 
     const [choose, setChoose] = useState("All");
 
-
     const toggleChoose = (x) => {
         setChoose(x);
     }

@@ -1,18 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
-import Sidebar from './sidebar/Sidebar';
-import Navbar from './Navbar/Navbar';
-import Catolog from './Catolog/Catolog';
-import Listfood from './Listfood/Listfood';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './HomePage/HomePage';
+import FoodDetail from './FoodDetail/FoodDetail';
+import SignUp from "./Register/RegisterForm";
 
 function App() {
   return (
-    <div className="App">
-      <Sidebar />
-      <Navbar />
-      <Catolog />
-      <Listfood />
-    </div>
+
+
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/:category" element={<HomePage />}></Route>
+        <Route path="/:category/:id" element={<HomePage />}></Route>
+        <Route path="/detail/:id" element={<FoodDetail />}></Route>
+          <Route path="/register" element={<SignUp/>}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
