@@ -43,6 +43,10 @@
 .map{
   z-index: 10;
 }
+. map button{
+    line-height: 30px;
+    height: 30px;
+}
 
 
 .positionParent .positionBox{

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, {useState, useRef} from "react";
 import validator from "validator";
 import './RegisterForm.css'
 
@@ -13,7 +13,7 @@ const SignUp = () => {
     const passwordRef = useRef(null);
 
     const signup = async () => {
-        const { about, fullname, email, password, confirmPassword } = getInputs();
+        const {about, fullname, email, password, confirmPassword} = getInputs();
         if (
             isSignupValid({
                 about,
@@ -33,7 +33,7 @@ const SignUp = () => {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         const confirmPassword = confirmPasswordRef.current.value;
-        return { about, fullname, email, password, confirmPassword };
+        return {about, fullname, email, password, confirmPassword};
     };
 
     const isSignupValid = ({
@@ -57,7 +57,7 @@ const SignUp = () => {
         }
         if (
             validator.isEmpty(password) ||
-            !validator.isLength(password, { min: 6 })
+            !validator.isLength(password, {min: 6})
         ) {
             alert(
                 "Please input your password. You password must have at least 6 characters"
@@ -102,7 +102,7 @@ const SignUp = () => {
                             className="signup__user-avatar"
                             onClick={() => filepickerRef.current.click()}
                         >
-                            <img src={avatar} alt="avatar" />
+                            <img src={avatar} alt="avatar"/>
                         </div>
                     )}
                     {!avatar && (
@@ -120,9 +120,9 @@ const SignUp = () => {
                         ref={filepickerRef}
                         type="file"
                     />
-                    <input type="text" placeholder="Fullname" ref={fullnameRef} />
-                    <input type="text" placeholder="Email" ref={emailRef} />
-                    <input type="password" placeholder="Password" ref={passwordRef} />
+                    <input type="text" placeholder="Fullname" ref={fullnameRef}/>
+                    <input type="text" placeholder="Email" ref={emailRef}/>
+                    <input type="password" placeholder="Password" ref={passwordRef}/>
                     <input
                         type="password"
                         placeholder="Confirm Password"

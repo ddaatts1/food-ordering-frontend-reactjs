@@ -155,10 +155,6 @@ const Map = () => {
         });
 
 
-
-
-
-
         setMap(newMap);
         setInfoWindow(newInfoWindow);
     }, []);

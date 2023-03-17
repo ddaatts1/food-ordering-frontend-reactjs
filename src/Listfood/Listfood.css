@@ -1,5 +1,5 @@
 
-.Listfood{
+.Listfood {
     /* margin-top: 40px; */
     display: block;
     float: right;
@@ -9,26 +9,36 @@
     flex-wrap: wrap;
 }
 
-.Listfood .card{
+.Listfood .card {
+    /*border: 1px solid grey;*/
+    /*border-radius: 10px 10px 10px 10px;*/
+    /*margin: 40px 10px 10px 40px;*/
+    /*width: 20%;*/
+    /*height: 250px;*/
+    /*margin-left: 20px;*/
+    /*overflow: hidden;*/
+    /*transition: background-color 0.5s ease;*/
+    /*color: black;*/
+
     border: 1px solid grey;
     border-radius: 10px 10px 10px 10px;
-    margin:40px 10px 10px 40px;
-    width: 20%;
-    height: 250px;
-    /* background-color: blue; */
+    margin: 40px 10px 10px 40px;
+    width: 260px;
+height: 250px;
     margin-left: 20px;
     overflow: hidden;
     transition: background-color 0.5s ease;
+    color: black;
 
 
 }
 
-.Listfood .card:hover  {
+.Listfood .card:hover {
     background-color: rgb(225, 228, 236);
 }
 
 
-.Listfood .card .image{
+.Listfood .card .image {
     width: 100%;
     height: 50%;
     display: flex;
@@ -36,20 +46,21 @@
     align-items: center;
 }
 
-.Listfood .card .image div{
+.Listfood .card .image div {
     width: 85%;
     height: 80%;
     border-radius: 10px 10px 10px 10px;
     overflow: hidden;
     border: 1px solid grey;
 }
-.Listfood .card .image img{
+
+.Listfood .card .image img {
     width: 100%;
     height: 100%;
     transition: transform 0.5s ease;
 }
 
-.Listfood .card .name{
+.Listfood .card .name {
     font-family: 'Fredoka One', cursive;
     width: 100%;
     height: 25%;
@@ -57,22 +68,24 @@
     text-align: center;
 }
 
-.Listfood .card .name span{
+.Listfood .card .name span {
     height: 100%;
     width: 100%;
-    line-height: 50px;    
+    line-height: 50px;
 }
 
-.Listfood .card .infor{
+.Listfood .card .infor {
 
     width: 100%;
     height: 25%;
 }
-.Listfood .card .infor .container{
+
+.Listfood .card .infor .container {
     margin: 0px 5px 5px 5px;
     display: flex;
     height: 90%;
-align-items: center;}
+    align-items: center;
+}
 
 .box {
     width: 33.33%;
@@ -83,14 +96,15 @@ align-items: center;}
     flex-direction: column;
     font-family: 'Fredoka One', cursive;
     font-size: smaller;
-  }
-  .line{
+}
+
+.line {
     height: 50%;
     border: 1px solid black;
-  }
-  
+}
 
-  .icon{
+
+.icon {
     display: inline-block;
     width: 1em;
     height: 1em;
@@ -99,9 +113,9 @@ align-items: center;}
     background-repeat: no-repeat;
     font-size: 13px;
     margin-right: 5px;
-  }
+}
 
-  
+
 
 
 

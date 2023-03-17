@@ -6,6 +6,7 @@ import './Sidebar.css'
 const Sidebar = () => {
     const [choose, setChoose] = useState("Home");
 
+    const [displayCart,setDisplayCart] = useState(false);
     const toggleIcon = (x) => {
         setChoose(x);
     };

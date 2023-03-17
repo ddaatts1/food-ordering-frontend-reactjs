@@ -1,4 +1,3 @@
-
 import './Navbar.css'
 import Map from '../GoogleMap/Map'
 
@@ -11,8 +10,8 @@ const Navbar = () => {
             </div>
 
             <div className='Searchbox'>
-                <div className='locationBox'><Map /></div>
-                <div><input type={Text}></input></div>
+                <div className='locationBox'><Map/></div>
+                <div><input className='search' type={Text}></input></div>
             </div>
         </div>
     )
