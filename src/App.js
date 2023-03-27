@@ -6,6 +6,8 @@ import SignUp from "./Register/RegisterForm";
 import Login from "./GoogleRecaptcha/Login";
 import TestPopup from "./Popup/TestPopup";
 import TestResponsive from "./TestResponsive/TestResponsive";
+import AddItem from "./Admin/AddItem/AddItem";
+import ViewListItems from "./Admin/ViewListItems/ViewListItems";
 function App() {
   return (
 
@@ -19,6 +21,8 @@ function App() {
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/popup" element={<TestPopup/>}></Route>
         <Route path="/TestResponsive" element={<TestResponsive/>}></Route>
+        <Route path="/addItem" element={<AddItem/>}></Route>
+        <Route path="/ListItems" element={<ViewListItems/>}></Route>
       </Routes>
     </BrowserRouter>
   );

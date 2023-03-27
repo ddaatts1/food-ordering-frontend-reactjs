@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faSearch, faEnvelope, faBell, faUser, faCartShopping, faPizzaSlice, faCircleInfo, faUtensilSpoon, faUtensils } from "@fortawesome/free-solid-svg-icons";
 import './Sidebar.css'
-const Sidebar = () => {
+const AdminSideBar = () => {
     const [choose, setChoose] = useState("Home");
 
     const [displayCart,setDisplayCart] = useState(false);
@@ -15,38 +15,38 @@ const Sidebar = () => {
         <ul className="list_icon">
             <li >
                 <a href="#"
-                    style={{ borderLeft: choose === "Home" ? "2px solid white" : "" }}
-                    onClick={() => toggleIcon("Home")}
+                   style={{ borderLeft: choose === "Home" ? "2px solid white" : "" }}
+                   onClick={() => toggleIcon("Home")}
                 >
                     <FontAwesomeIcon icon={faHome} style={{ color: "white" }} />
                 </a>
             </li>
             <li>
                 <a href="#"
-                    style={{ borderLeft: choose === "Pizza" ? "2px solid white" : "" }}
-                    onClick={() => toggleIcon("Pizza")}>
+                   style={{ borderLeft: choose === "Pizza" ? "2px solid white" : "" }}
+                   onClick={() => toggleIcon("Pizza")}>
                     <FontAwesomeIcon icon={faPizzaSlice} style={{ color: "white" }} />
                 </a>
             </li>
             <li>
                 <a href="#"
-                    style={{ borderLeft: choose === "faUtensils" ? "2px solid white" : "" }}
-                    onClick={() => toggleIcon("faUtensils")}>
+                   style={{ borderLeft: choose === "faUtensils" ? "2px solid white" : "" }}
+                   onClick={() => toggleIcon("faUtensils")}>
                     <FontAwesomeIcon icon={faUtensils} style={{ color: "white" }} />
                 </a>
             </li>
             <li>
                 <a href="#"
-                    style={{ borderLeft: choose === "Cart" ? "2px solid white" : "" }}
-                    onClick={() => toggleIcon("Cart")}
+                   style={{ borderLeft: choose === "Cart" ? "2px solid white" : "" }}
+                   onClick={() => toggleIcon("Cart")}
                 >
                     <FontAwesomeIcon icon={faCartShopping} style={{ color: "white" }} />
                 </a>
             </li>
             <li>
                 <a href="#"
-                    style={{ borderLeft: choose === "Infor" ? "2px solid white" : "" }}
-                    onClick={() => toggleIcon("Infor")}>
+                   style={{ borderLeft: choose === "Infor" ? "2px solid white" : "" }}
+                   onClick={() => toggleIcon("Infor")}>
                     <FontAwesomeIcon icon={faCircleInfo} style={{ color: "white" }} />
                 </a>
             </li>
@@ -54,4 +54,4 @@ const Sidebar = () => {
     );
 };
 
-export default Sidebar;
+export default AdminSideBar;
