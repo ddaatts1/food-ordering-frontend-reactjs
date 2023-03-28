@@ -11,7 +11,7 @@ const Navbar = () => {
 
             <div className='Searchbox'>
                 <div className='locationBox'><Map/></div>
-                <div><input className='search' type={Text}></input></div>
+                <div><input className='search' type="text"></input></div>
             </div>
         </div>
     )

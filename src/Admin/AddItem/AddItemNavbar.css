@@ -28,3 +28,9 @@
     font-family: 'Hanalei Fill', cursive;
 }
 
+.infor{
+
+    float: right;
+    line-height: 100px;
+    padding-right: 30px;
+}

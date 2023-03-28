@@ -41,9 +41,9 @@ const Catolog = () => {
             </div>
             <ul className="Listcategory">
 
-                {arr.map((x) => {
+                {arr.map((x,i) => {
                     return (
-                        <li className="Category" >
+                        <li key={i} className="Category" >
                             <a href='#' className='aCategory' onClick={() => toggleChoose(x)}>
                                 <div className="image" style={{ backgroundColor: choose === x ? "rgb(255, 250, 199)" : " " }}>
                                     <div style={{ backgroundColor: choose === x ? "rgb(240, 235, 180)" : " " }}>
