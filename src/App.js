@@ -11,26 +11,27 @@ import AddItem from "./Admin/AddItem/AddItem";
 import LoginForm from "./GoogleRecaptcha/LoginForm";
 import ProtectedRoute from "./Context/ProtectedRoute";
 import {AuthProvider} from "./Context/AuthProvider";
+import OTPForm from "./Register/OTPForm";
+import AdminManagement from "./Admin/AdminManagement";
+import AddBox from "./Admin/AddItem/AddBox";
+import DashBoard from "./Admin/DashBoard/DashBoard";
 function App() {
   return (
-
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<HomePage />}></Route>
-            <Route path="/:category" element={<HomePage />}></Route>
-            <Route path="/:category/:id" element={<HomePage />}></Route>
+            <Route  path="/" element={<HomePage />}></Route>
             <Route path="/detail/:id" element={<FoodDetail />}></Route>
             <Route path="/register" element={<SignUp/>}></Route>
-            <Route path="/login" element={<LoginForm/>}></Route>
+            <Route  path="/login"  element={<LoginForm/>}></Route>
             <Route path="/popup" element={<TestPopup/>}></Route>
             <Route path="/TestResponsive" element={<TestResponsive/>}></Route>
-            {/*<Route path="/addItem" element={<AddItem/>}></Route>*/}
-            <Route
-                path="/addItem"
-                element={<ProtectedRoute element={<AddItem/>} />}
-            />
-            {/*<Route path="/ListItems" element={<ViewListItems/>}></Route>*/}
+            <Route path="/validateOTP" element={<OTPForm/>}></Route>
+            <Route path="/management" element={<ProtectedRoute element={<AdminManagement/>} />} >
+              <Route path="" element={<DashBoard/>}/>
+              <Route path="add" element={<AddBox/>}/>
+              <Route path="detail" element={<FoodDetail/>}></Route>
+            </Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>

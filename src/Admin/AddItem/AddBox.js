@@ -69,6 +69,12 @@ const AddBox = () => {
     const [detail,setDetail] = useState("");
     const[ restaurant_id,setRestaurant_id ]= useState("");
     const [images,setImages] = useState([]);
+    const [token,setToken] = useState(null);
+
+
+    useEffect(()=>{
+      setToken('Bearer '+localStorage.getItem("token"))
+    },[])
 
 
 
@@ -77,7 +83,14 @@ const AddBox = () => {
         if (
             isValid(requestData)
         ) {
-                axios.post('http://localhost:8081/api/OrderUp/ADD_ITEM', requestData)
+            console.log("request data: ", requestData)
+            console.log("token: ",token)
+                axios.post(process.env.REACT_APP_URL_ADD_ITEM, requestData, {
+                    headers: {
+
+                        Authorization: token
+                    }
+                })
                     .then((response) => {
                         console.log(response);
                     })

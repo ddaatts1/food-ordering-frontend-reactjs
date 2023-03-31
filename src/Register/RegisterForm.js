@@ -1,19 +1,27 @@
 import React, {useState, useRef} from "react";
-import validator from "validator";
+import { ReactComponent as Loader } from './load.svg'
+
 import './RegisterForm.css'
+import axios from "axios";
+import {useNavigate} from "react-router";
 
 const SignUp = () => {
-    const [avatar, setAvatar] = useState(null);
 
+    const [isLoading,setIsLoading] = useState(false);
+    const [avatar, setAvatar] = useState(null);
+    const navigate = useNavigate();
     const aboutRef = useRef(null);
     const confirmPasswordRef = useRef(null);
     const emailRef = useRef(null);
     const filepickerRef = useRef(null);
     const fullnameRef = useRef(null);
     const passwordRef = useRef(null);
+    const addressRef = useRef(null);
+    const phoneRef = useRef(null);
 
     const signup = async () => {
-        const {about, fullname, email, password, confirmPassword} = getInputs();
+        setIsLoading(true)
+        const { fullname, email, password, confirmPassword,phone,address,about} = getInputs();
         if (
             isSignupValid({
                 about,
@@ -21,9 +29,37 @@ const SignUp = () => {
                 email,
                 password,
                 confirmPassword,
+                phone,
+                address
             })
         ) {
-            alert("You account was created successfully");
+            const  requestData = {
+                name:fullname,
+                email:email,
+                password: password,
+                address_detail: address,
+                address_long:"",
+                address_lat:"",
+                phone:phone
+            }
+            console.log("request data : ",requestData);
+           await axios.post(process.env.REACT_APP_URL_REGISTER,requestData)
+                .then((response)=>{
+                    console.log("response: ",response)
+                    if(response.status != 200){
+                        console.log("Tạo tìa khoản không thành công")
+                        setIsLoading(false)
+                    }
+                    else {
+                        console.log("Tạo tài khoản thành công ")
+                        setIsLoading(false)
+
+                        alert("You account was created successfully");
+                        // window.location.href = '/validateOTP?email=' + email;
+                        navigate('/validateOTP?email=' + email);
+                    }
+                })
+
         }
     };
 
@@ -33,7 +69,9 @@ const SignUp = () => {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         const confirmPassword = confirmPasswordRef.current.value;
-        return {about, fullname, email, password, confirmPassword};
+        const address = addressRef.current.value;
+        const phone = phoneRef.current.value;
+        return { fullname, email, password, confirmPassword,phone,address,about};
     };
 
     const isSignupValid = ({
@@ -42,40 +80,51 @@ const SignUp = () => {
                                email,
                                password,
                                confirmPassword,
+                                phone,
+                                address
                            }) => {
-        if (!avatar) {
-            alert("Please upload your avatar");
-            return false;
-        }
-        if (validator.isEmpty(fullname)) {
-            alert("Please input your fullname");
-            return false;
-        }
-        if (!validator.isEmail(email)) {
-            alert("Please input your email");
-            return false;
-        }
-        if (
-            validator.isEmpty(password) ||
-            !validator.isLength(password, {min: 6})
-        ) {
-            alert(
-                "Please input your password. You password must have at least 6 characters"
-            );
-            return false;
-        }
-        if (validator.isEmpty(confirmPassword)) {
-            alert("Please input your confirm password");
-            return false;
-        }
-        if (password !== confirmPassword) {
-            alert("Confirm password and password must be the same");
-            return false;
-        }
-        if (validator.isEmpty(about)) {
-            alert("Please input your description");
-            return false;
-        }
+        // if (!avatar) {
+        //     alert("Please upload your avatar");
+        //     return false;
+        // }
+        // if (validator.isEmpty(fullname)) {
+        //     alert("Please input your fullname");
+        //     return false;
+        // }
+        // if (!validator.isEmail(email)) {
+        //     alert("Please input your email");
+        //     return false;
+        // }
+        // if (
+        //     validator.isEmpty(password) ||
+        //     !validator.isLength(password, {min: 6})
+        // ) {
+        //     alert(
+        //         "Please input your password. You password must have at least 6 characters"
+        //     );
+        //     return false;
+        // }
+        // if (validator.isEmpty(confirmPassword)) {
+        //     alert("Please input your confirm password");
+        //     return false;
+        // }
+        // if (password !== confirmPassword) {
+        //     alert("Confirm password and password must be the same");
+        //     return false;
+        // }
+        // if (validator.isEmpty(about)) {
+        //     alert("Please input your description");
+        //     return false;
+        // }
+        // if(validator.isEmpty(phone)) {
+        //     alert("Please input your phone ");
+        //     return false;
+        // }
+        //
+        // if(validator.isEmpty(address)){
+        //     alert("Please input your address");
+        //     return false;
+        // }
         return true;
     };
 
@@ -93,7 +142,7 @@ const SignUp = () => {
         <div className="signup">
             <div className="signup__content">
                 <div className="signup__container">
-                    <div className="signup__title">Sign Up</div>
+                    <div className="signup__title">Đăng ký</div>
                 </div>
                 <div className="signup__subtitle"></div>
                 <div className="signup__form">
@@ -110,7 +159,7 @@ const SignUp = () => {
                             onClick={() => filepickerRef.current.click()}
                             className="signup__upload-container"
                         >
-                            Choose File
+                            Chọn ảnh
                         </div>
                     )}
                     <input
@@ -120,21 +169,25 @@ const SignUp = () => {
                         ref={filepickerRef}
                         type="file"
                     />
-                    <input type="text" placeholder="Fullname" ref={fullnameRef}/>
+                    <input type="text" placeholder="Tên nhà hàng" ref={fullnameRef}/>
                     <input type="text" placeholder="Email" ref={emailRef}/>
-                    <input type="password" placeholder="Password" ref={passwordRef}/>
+                    <input type="password" placeholder="Mật khẩu" ref={passwordRef}/>
                     <input
                         type="password"
-                        placeholder="Confirm Password"
+                        placeholder="Xác nhận mật khẩu "
                         ref={confirmPasswordRef}
                     />
+                    <input type="text" placeholder="Số điện thoại" ref={phoneRef}/>
+
+                    <input type="text" placeholder="Địa chỉ" ref={addressRef}/>
+
                     <textarea
                         className="signup__about"
-                        placeholder="Describe yourself here..."
+                        placeholder="Chi tiết..."
                         ref={aboutRef}
                     ></textarea>
                     <button className="signup__btn" onClick={signup}>
-                        Sign Up
+                        {!isLoading?"Đăng ký ":<Loader className="spinner"/> }
                     </button>
                 </div>
             </div>

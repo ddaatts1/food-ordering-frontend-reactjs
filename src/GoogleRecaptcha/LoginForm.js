@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import validator from "validator";
 import './LoginForm.css'
 import ReCAPTCHA from "react-google-recaptcha";
@@ -8,7 +8,7 @@ import {useAuth} from "../Context/useAuth";
 const Login = () => {
 
     const {login} = useAuth()
-
+    const [response,setResponse] = useState(null);
     const [verified, setVerified] = useState(false);
 
     const emailRef = useRef(null);
@@ -23,19 +23,36 @@ const Login = () => {
             })
         ) {
 
-           // await axios.post("http://localhost:8081/api/v1/auth/authenticate",getInputs()).then((response)=>{
-           //      console.log(response.data.token)
-           //
-           //  }).catch((error) => {
-           //      console.log("sai ten dn hoac mk")
-           //  });
-            login("day la token ")
+            console.log("env : ",process.env.REACT_APP_URL_LOGIN)
+            console.log("request body: ",getInputs())
+            await axios.post(process.env.REACT_APP_URL_LOGIN ,getInputs()).then((r)=>{
+                console.log("response: ",r.data)
+                setResponse(r.data)
 
-            console.log(getInputs())
+            }).catch((error) => {
+                console.log("sai ten dn hoac mk")
+            });
 
-            alert("login successfully");
+            console.log(response)
+
+
+
+
         }
     };
+
+    useEffect(()=>{
+        if(response != null){
+            if(response.status == 1){
+                console.log(response.message)
+                alert("login successfully");
+                login(response.message)
+            }else {
+                alert("sai ten dn hoac mk");
+            }
+        }
+
+    },[response])
 
     const getInputs = () => {
         const email = emailRef.current.value;
