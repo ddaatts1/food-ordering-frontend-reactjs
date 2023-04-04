@@ -58,15 +58,15 @@ const AdminSideBar = () => {
                     <FontAwesomeIcon icon={faUtensils} style={{ color: "white" }} />
                 </Link>
             </li>
+
             <li>
-                <a href="#"
-                   style={{ borderLeft: choose === "Cart" ? "2px solid white" : "" }}
-                   onClick={() => toggleIcon("Cart")}
-                   choose={choose}
+                <Link to="/management/chat"
+                      style={{ borderLeft: choose === "Cart" ? "2px solid white" : "" }}
+                      onClick={() => toggleIcon("Cart")}
+                      choose={choose}
                 >
                     <FontAwesomeIcon icon={faMessage} style={{ color: "white" }} />
-                </a>
-                <i className="fa-regular fa-messages"></i>
+                </Link>
             </li>
             <li>
                 <a href="#"

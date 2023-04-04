@@ -15,7 +15,6 @@ const AdminNavbar = () => {
                 <span>OrderUp!</span>
             </div>
             <span className="infor"><button type="button" onClick={doLogout}>logout</button></span>
-
         </div>
     )
 
