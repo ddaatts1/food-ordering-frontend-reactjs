@@ -4,6 +4,7 @@ import "./AddBox.css"
 import axios from "axios";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
+import {useNavigate} from "react-router";
 
 
 
@@ -11,7 +12,7 @@ import 'firebase/compat/storage';
 const AddBox = () => {
     const [image, setImage] = useState(null);
     const filepickerRef = useRef(null);
-
+    const navigate = useNavigate()
     const firebaseConfig = {
         apiKey: "AIzaSyBeKFJZLSF6n3eVckKjD3DoNTc-lVvMPCo",
         authDomain: "orderup-1678757977213.firebaseapp.com",
@@ -93,12 +94,21 @@ const AddBox = () => {
                 })
                     .then((response) => {
                         console.log(response);
+                        if(response.data.code==1){
+                            alert("Thêm thanh cong ");
+
+                            navigate("/management/Items")
+                        }
+                        else {
+                            alert("Thêm that bai ");
+                        }
+
+
                     })
                     .catch((error) => {
                         console.error(error);
                     });
 
-            alert("Thêm thành công");
         }
 
     };

@@ -50,7 +50,7 @@ const AdminSideBar = () => {
                 </Link>
             </li>
             <li>
-                <Link to="/management/detail"
+                <Link to="/management/Items"
                    style={{ borderLeft: choose === "faUtensils" ? "2px solid white" : "" }}
                    onClick={() => toggleIcon("faUtensils")}
                       choose={choose}

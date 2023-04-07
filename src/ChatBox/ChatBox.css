@@ -62,7 +62,7 @@ form {
     font-size: 1.5rem;
 }
 
-form button {
+form .sendMessage {
     width: 20%;
     background-color: rgb(56, 56, 143);
 }
@@ -79,7 +79,7 @@ form button {
     padding: 0 10px;
 }
 
-button {
+.sendMessage,.sign-out {
     background-color: #282c34; /* Green */
     border: none;
     color: white;
@@ -91,7 +91,7 @@ button {
     font-size: 1.25rem;
 }
 
-button:disabled {
+.sendMessage:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }

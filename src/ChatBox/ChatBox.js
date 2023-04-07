@@ -1,7 +1,7 @@
 
 import {auth, db} from "./firebaseConfig"
 import {useEffect, useRef, useState} from "react";
-import {addDoc, collection, getDocs, query, where,orderBy} from "@firebase/firestore";
+import {addDoc, collection, getDocs, query, where, orderBy, onSnapshot} from "@firebase/firestore";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -32,9 +32,9 @@ export  default  function ChatBox(props){
 
                 <section>
 
-                    {user ? <ChatRoom toUser={props.toUser} /> : <SignIn />
+                    {props.toUser &&user ? <ChatRoom toUser={props.toUser} /> : <SignIn />}
 
-                    }{
+                    {
                         console.log("toUser: ",props.toUser)
                 }
                     <div>{user? user.displayName:"chua dang nhap"}</div>
@@ -60,79 +60,156 @@ function ChatMessage(props) {
 
 ChatMessage.propTypes = {message: PropTypes.any};
 
-function ChatRoom(props){
+// function ChatRoom(props){
+//
+//     const [user] = useAuthState(auth)
+//
+//     const dummy = useRef();
+//     const [formValue, setFormValue] = useState('');
+//     const messagesRef = collection(db,"messages")
+//     const [messages,setMessages] = useState([]);
+//     const querySnapshot =  getDocs(query(messagesRef,
+//             where('uid', 'in', [user.uid,props.toUser]),
+//             where("toUser","in",[user.uid,props.toUser]),
+//             orderBy("createdAt","asc")
+//         ),
+//
+//     );
+//
+//
+//
+//     useEffect(() => {
+//         const getMessages = async () => {
+//
+//             const messageData = (await querySnapshot).docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+//             console.log("messageData: ",messageData)
+//             setMessages(messageData);
+//         };
+//
+//         getMessages();
+//     },[props.toUser]);
+//
+//     useEffect(()=>{
+//         console.log(messages)
+//
+//         console.log("uid: ",auth.currentUser.uid)
+//         console.log("name: ",auth.currentUser.displayName)
+//     },[])
+//
+//         const sendMessage = async (e) => {
+//             e.preventDefault();
+//
+//             const { uid, photoURL,displayName } = auth.currentUser;
+//
+//             await addDoc(collection(db, "messages"), {
+//                 text: formValue,
+//                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+//                 uid,
+//                 displayName,
+//                 toUser: props.toUser,
+//                 photoURL
+//             });
+//
+//
+//             setFormValue('');
+//             dummy.current.scrollIntoView({ behavior: 'smooth' });
+//         }
+//
+//         useEffect(()=>{
+//
+//         },[messages])
+//
+//     return(<>
+//             <main>
+//
+//                 {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+//
+//                 <span ref={dummy}></span>
+//
+//             </main>
+//
+//             <form onSubmit={sendMessage}>
+//
+//                 <input className="chatBoxInput" value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="chat" />
+//
+//                 <button className="sendMessage" type="submit" disabled={!formValue}>🕊️</button>
+//
+//             </form>
+//         </>
+//     )
+// }
 
-    const [user] = useAuthState(auth)
-
+function ChatRoom(props) {
+    const [user] = useAuthState(auth);
     const dummy = useRef();
     const [formValue, setFormValue] = useState('');
-    const messagesRef = collection(db,"messages")
-    const [messages,setMessages] = useState([]);
-    const querySnapshot =  getDocs(query(messagesRef,
-            where('uid', 'in', [user.uid,props.toUser]),
-            where("toUser","in",[user.uid,props.toUser]),
-            orderBy("createdAt","asc")
-        )
-    );
+    const messagesRef = collection(db, "messages");
+    const [messages, setMessages] = useState([]);
+
+    // useEffect(() => {
+    //     // Listen for changes to the messages collection in real time
+    //     const unsubscribe = query(messagesRef,
+    //         where('uid', 'in', [user.uid, props.toUser]),
+    //         where("toUser", "in", [user.uid, props.toUser]),
+    //         orderBy("createdAt", "asc")
+    //     ).onSnapshot((querySnapshot) => {
+    //         const messageData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    //         setMessages(messageData);
+    //     });
+    //
+    //     // Unsubscribe from the listener when the component unmounts
+    //     return unsubscribe;
+    // }, [props.toUser]);
+
+
 
     useEffect(() => {
-        const getMessages = async () => {
-
-            const messageData = (await querySnapshot).docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-            console.log(messageData)
+        // Listen for changes to the messages collection in real time
+        const unsubscribe = onSnapshot(    query(messagesRef,
+            where('uid', 'in', [user.uid, props.toUser]),
+            where("toUser", "in", [user.uid, props.toUser]),
+            orderBy("createdAt", "asc")
+        ),(querySnapshot) => {
+            const messageData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
             setMessages(messageData);
-        };
+        });
 
-        getMessages();
-    },[querySnapshot]);
-
-    useEffect(()=>{
-        console.log(messages)
-
-        console.log("uid: ",auth.currentUser.uid)
-        console.log("name: ",auth.currentUser.displayName)
-    },[])
-
-        const sendMessage = async (e) => {
-            e.preventDefault();
-
-            const { uid, photoURL,displayName } = auth.currentUser;
-
-            await addDoc(collection(db, "messages"), {
-                text: formValue,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                uid,
-                displayName,
-                toUser: props.toUser,
-                photoURL
-            });
+        // Unsubscribe from the listener when the component unmounts
+        return unsubscribe;
+    }, [props.toUser]);
 
 
-            setFormValue('');
-            dummy.current.scrollIntoView({ behavior: 'smooth' });
-        }
+    const sendMessage = async (e) => {
+        e.preventDefault();
 
+        const { uid, photoURL, displayName } = auth.currentUser;
 
-    return(<>
+        await addDoc(collection(db, "messages"), {
+            text: formValue,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            uid,
+            displayName,
+            toUser: props.toUser,
+            photoURL
+        });
+
+        setFormValue('');
+        dummy.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    return (
+        <>
             <main>
-
                 {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-
                 <span ref={dummy}></span>
-
             </main>
-
             <form onSubmit={sendMessage}>
-
                 <input className="chatBoxInput" value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="chat" />
-
-                <button type="submit" disabled={!formValue}>🕊️</button>
-
+                <button className="sendMessage" type="submit" disabled={!formValue}>🕊️</button>
             </form>
         </>
     )
 }
-
 
 
 function SignIn() {

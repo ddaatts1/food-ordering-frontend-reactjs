@@ -16,11 +16,6 @@ function ChatApp(){
     const [listUser,setListUser] = useState([])
     const [choose, setChoose] = useState(null)
 
-
-    const array = ["banana","mango","berry","watermelon"]
-
-
-
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user) {
@@ -32,11 +27,24 @@ function ChatApp(){
 
                     const messageData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
                     console.log("docs: ",querySnapshot.docs)
-                    const uniqueUser = querySnapshot.docs.reduce((user,curr)=>{
-                        if (!user.includes(curr.data().uid)) {
-                            user.push(curr.data().uid);
+                    const uniqueUser = querySnapshot.docs.reduce((users,curr)=>{
+                        // if (!user.includes({
+                        //     uid:curr.data().uid,
+                        //     displayName:curr.data().displayName})) {
+                        //     user.push(
+                        //         {
+                        //             uid:curr.data().uid,
+                        // displayName:curr.data().displayName})
+                        // }
+                        // return user;
+                        const user = {
+                            uid: curr.data().uid,
+                            displayName: curr.data().displayName,
+                        };
+                        if (!users.some((u) => u.uid === user.uid && u.displayName === user.displayName)) {
+                            users.push(user);
                         }
-                        return user;
+                        return users;
                     },[]);
 
                     console.log("data: ",querySnapshot.docs)
@@ -58,10 +66,14 @@ function ChatApp(){
 
     function onSelectChange(e){
 
+        setToUser(e.target.value)
         setChoose(e.target.value)
         console.log(e.target.value)
 
     }
+    useEffect(()=>{
+        console.log("to user: ",toUser)
+    },[toUser])
 
 
 
@@ -71,20 +83,20 @@ function ChatApp(){
             <div className="selectContainer">
                 <div className="selectContainer1">
                     <div className="select" tabIndex="1">
-                        {array.map((v,i)=>{
+                        {listUser && listUserId.map((v,i)=>{
                             return(
                                 <div key={i}>
                                     <input
                                         className="selectopt"
                                         name="test"
                                         type="radio"
-                                        id={v}
-                                        value={v}
-                                        checked={choose === v}
+                                        id={v.uid}
+                                        value={v.uid}
+                                        checked={choose === v.uid}
                                         onChange={onSelectChange}
                                     />
-                                    <label  htmlFor={v} className="option">
-                                        {v}
+                                    <label  htmlFor={v.uid} className="option">
+                                        {v.displayName}
                                     </label>
 
                                 </div>
@@ -99,7 +111,7 @@ function ChatApp(){
 
             {/*{choose != null? <ChatBoxTest id={choose}/>:"chua chon"}*/}
 
-            <ChatBox toUser="DqCqzmElLuhHQSWypCvoHfjxynh1"/>
+             <ChatBox toUser={toUser}/>
 
         </div>
     )

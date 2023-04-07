@@ -4,9 +4,11 @@ import './LoginForm.css'
 import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import {useAuth} from "../Context/useAuth";
+import {useNavigate} from "react-router";
 
 const Login = () => {
 
+    const navigate = useNavigate();
     const {login} = useAuth()
     const [response,setResponse] = useState(null);
     const [verified, setVerified] = useState(false);
@@ -28,6 +30,8 @@ const Login = () => {
             await axios.post(process.env.REACT_APP_URL_LOGIN ,getInputs()).then((r)=>{
                 console.log("response: ",r.data)
                 setResponse(r.data)
+                navigate('/management' );
+
 
             }).catch((error) => {
                 console.log("sai ten dn hoac mk")

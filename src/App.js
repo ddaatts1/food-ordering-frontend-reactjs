@@ -10,9 +10,11 @@ import ProtectedRoute from "./Context/ProtectedRoute";
 import {AuthProvider} from "./Context/AuthProvider";
 import OTPForm from "./Register/OTPForm";
 import AdminManagement from "./Admin/AdminManagement";
-import AddBox from "./Admin/AddItem/AddBox";
+import AddBox from "./Admin/AddEditItem/AddBox";
 import DashBoard from "./Admin/DashBoard/DashBoard";
 import ChatApp from "./ChatBox/ChatApp";
+import AdminListItems from "./Admin/AdminListItems/AdminListItems";
+import EditBox from "./Admin/AddEditItem/EditBox";
 function App() {
   return (
       <AuthProvider>
@@ -30,6 +32,8 @@ function App() {
               <Route path="add" element={<AddBox/>}/>
               <Route path="detail" element={<FoodDetail/>}></Route>
               <Route path="chat" element={<ChatApp/>}></Route>
+              <Route path="Items" element={<AdminListItems/>}></Route>
+              <Route path="Items/EditItem" element={<EditBox/>}></Route>
             </Route>
             <Route path="/ChatApp" element={<ChatApp/>}></Route>
           </Routes>

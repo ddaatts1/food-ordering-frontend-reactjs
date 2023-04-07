@@ -1,5 +1,5 @@
 import AdminSideBar from "../../sidebar/AdminSideBar";
-import AdminNavbar from "../AddItem/AdminNavbar";
+import AdminNavbar from "../AddEditItem/AdminNavbar";
 import ListItems from "./ListItems";
 
 
