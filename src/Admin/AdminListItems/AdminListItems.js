@@ -1,6 +1,5 @@
 
 import "./AdminListItems.css"
-import UsePagination from "./UsePagination";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
@@ -23,7 +22,7 @@ function AdminListItems(){
 
         const token = localStorage.getItem("token")
         axios
-            .get(`http://localhost:8081/api/admin/OrderUp/GET_ITEMS?page=${page}`, {
+            .get(`${process.env.REACT_APP_URL_ADMIN_GET_ITEMS}?page=${page}`, {
                 headers: {
                     authorization:
                     `Bearer ${token}`
@@ -71,7 +70,7 @@ function AdminListItems(){
         }
         const token = localStorage.getItem("token")
         console.log("requestData: ",requestData)
-        axios.post('http://localhost:8081/api/admin/OrderUp/ON_OFF_ITEM',requestData,{
+        axios.post(process.env.REACT_APP_URL_ADMIN_ON_OFF_ITEM,requestData,{
                 headers: {
                     authorization:
                         `Bearer ${token}`,
@@ -97,7 +96,7 @@ fetchData()                }
 
         const token = localStorage.getItem("token")
         console.log("item delete: ",_id)
-        axios.post(`http://localhost:8081/api/admin/OrderUp/DELETE_ITEM?id=${_id}`,"",{
+        axios.post(`${process.env.REACT_APP_URL_ADMIN_DELETE_ITEM}?id=${_id}`,"",{
                 headers: {
                     authorization:
                         `Bearer ${token}`,
@@ -126,19 +125,19 @@ fetchData()                }
             <table className="adminListItem">
                 <th className="Item_header">
                     <td style={{"flexGrow":"1"}} >STT</td>
-                    <td style={{"flexGrow":"2"}}>TÊN</td>
-                    <td style={{"flexGrow":"1"}}>GIÁ</td>
-                    <td style={{"flexGrow":"1"}}>TRẠNG THÁI</td>
-                    <td style={{"flexGrow":"3"}}></td>
+                    <td style={{"flexGrow":"5"}}>TÊN</td>
+                    <td style={{"flexGrow":"2"}}>GIÁ</td>
+                    <td style={{"flexGrow":"2"}}>TRẠNG THÁI</td>
+                    <td style={{"flexGrow":"5"}}></td>
                 </th>
                 {res && res.content.map((item,i)=>{
                     return(
                         <tr key={i} className="Item">
                             <td style={{"flexGrow":"1"}}>{i+1}</td>
-                            <td style={{"flexGrow":"2"}}>{item.name}</td>
-                            <td style={{"flexGrow":"1"}}>{item.price}</td>
-                            <td style={{"flexGrow":"1"}}>{item.status}</td>
-                            <td style={{"flexGrow":"2"}}>
+                            <td style={{"flexGrow":"5"}}>{item.name}</td>
+                            <td style={{"flexGrow":"2"}}>{item.price}</td>
+                            <td style={{"flexGrow":"2"}}>{item.status}</td>
+                            <td style={{"flexGrow":"5"}}>
                                 <button onClick={()=>{onOffItem(item._id,item.status==="ON"?"OFF":"ON")}}  style={item.status == "ON"?{"background":"#C7390C"}:{"background":"#245618"}}>{item.status == "ON"? "off":"on"}</button>
                                 <button style={{"background":"#7F4F40"}} ><Link style={{"color":"white"}} to={`EditItem?_id=${item._id}`}>edit</Link></button>
 

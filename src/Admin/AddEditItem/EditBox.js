@@ -6,6 +6,8 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
 import {useSearchParams} from "react-router-dom";
 import {useNavigate} from "react-router";
+import {MultiSelect} from "react-multi-select-component";
+import Select from "react-select";
 
 
 
@@ -22,6 +24,11 @@ const EditBox = () => {
     const [images,setImages] = useState([]);
     const [token,setToken] = useState(null);
     const navigate = useNavigate()
+    const [selected, setSelected] = useState([]);
+
+
+    const [options,setOptions] = useState()
+    const [categories,setCategories] = useState([])
     const firebaseConfig = {
         apiKey: "AIzaSyBeKFJZLSF6n3eVckKjD3DoNTc-lVvMPCo",
         authDomain: "orderup-1678757977213.firebaseapp.com",
@@ -102,9 +109,11 @@ const EditBox = () => {
         name:"",
         price:0,
         detail:"",
+        categories:[],
         images:[],
         _id:searchParams.get("_id")
     });
+
 
 
 
@@ -113,8 +122,41 @@ const EditBox = () => {
         getItem(searchParams.get("_id"))
         setToken('Bearer '+localStorage.getItem("token"))
         console.log("edit id: ", searchParams.get("_id"))
+
+
     },[])
 
+    useEffect(()=>{
+        axios.get(`http://localhost:8081/api/OrderUp/GET_ALL_CATEGORIES`)
+            .then((response)=>{
+                console.log(response.data.data)
+                const  op = response.data.data.map((o)=>{
+                    return({label:o.name,
+                        value:o.code
+                    })
+                })
+
+                console.log("item: ",item)
+                const sel =item.categories == null? []: item.categories.map((i)=>{
+                    console.log("op:",op)
+                    const result = op.find((obj) => obj.value === i);
+                    console.log("result: ", result)
+
+                    return result;
+                })
+                console.log("sel: ", sel)
+                setSelected(sel)
+
+                setOptions(op)
+            })
+
+
+
+    },[item])
+
+    useEffect(()=>{
+        console.log("selected: ",selected)
+    },[selected])
 
 
     const editItem = async () => {
@@ -124,7 +166,7 @@ const EditBox = () => {
         ) {
             console.log("request data: ", requestData)
             console.log("token: ",token)
-            axios.post(`http://localhost:8081/api/admin/OrderUp/EDIT_ITEM`, requestData, {
+            axios.post(process.env.REACT_APP_URL_ADMIN_EDIT_ITEM, requestData, {
                 headers: {
                     Authorization: token
                 }
@@ -186,14 +228,31 @@ const EditBox = () => {
         requestData.detail = detail;
         requestData.name = name;
         requestData.price = price;
+        requestData.categories= categories;
         requestData.images = [image];
-    },[name,price,detail,image])
+    },[name,price,detail,image,categories])
+
 
 
     useEffect(()=>{
         requestData.restaurant_id = "63f32452db59e56a489911ef"
     },[])
 
+
+
+    useEffect(()=>{
+
+        const cat = selected.map((selected)=>{
+            return(selected.value)
+        })
+        setCategories(cat)
+    },[selected])
+
+
+
+    useEffect(()=>{
+        console.log("option: ",options)
+    },[options])
 
 
 
@@ -232,6 +291,22 @@ const EditBox = () => {
                     />
                     <input type="text" placeholder="Tên món ăn " value={name}  onChange={(e)=>{setName(e.target.value)}}/>
                     <input type="number" placeholder="Giá tiền " value={price}  onChange={(e)=>{setPrice(e.target.value)}}/>
+                    {/*{options&&<MultiSelect*/}
+                    {/*    options={options}*/}
+                    {/*    value={selected}*/}
+                    {/*    onChange={setSelected}*/}
+                    {/*    labelledBy={"Select"}*/}
+                    {/*    isCreatable={true}*/}
+                    {/*/> }*/}
+
+                    {options &&<Select
+                        isMulti
+                        value={selected}
+                        onChange={setSelected}
+                        options={options}
+                        placeholder="danh muc"
+                    />}
+
                     <textarea
                         value={detail}
                         className="addBox__about"

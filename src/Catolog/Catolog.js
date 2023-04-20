@@ -1,24 +1,41 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import './Catolog.css'
 
 
 const Catolog = () => {
 
-    const [choose, setChoose] = useState("All");
+    const [choose, setChoose] = useState("BUN");
 
     const toggleChoose = (x) => {
         setChoose(x);
     }
-    const arr = ["All", "Pizza", "3", "4", "5", "6", "7"];
+    const arr = [
+        {name :"Bún",code:"BUN",imageURL:"https://cdn-icons-png.flaticon.com/512/4727/4727368.png"},
+        {name :"Cơm",code:"COM",imageURL:"https://cdn-icons-png.flaticon.com/512/2714/2714041.png"},
+        {name :"Gà",code:"GA",imageURL:"https://cdn-icons-png.flaticon.com/512/837/837606.png"},
+        {name :"Tra sữa",code:"TRASUA",imageURL:"https://cdn-icons-png.flaticon.com/512/3361/3361216.png"},
+        {name :"Ăn vặt",code:"ANVAT",imageURL:"https://cdn-icons-png.flaticon.com/512/3814/3814614.png"},
+        {name :"Burger",code:"BURGER",imageURL:"https://cdn-icons-png.flaticon.com/128/3075/3075977.png"},
+        {name :"Pizza",code:"PIZZA",imageURL:"https://cdn-icons-png.flaticon.com/512/1404/1404945.png"}
+
+    ];
 
     const [selectedValue, setSelectedValue] = useState("topsale");
 
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
     }
+
+
+
+    useEffect(()=>{
+
+
+
+    },[selectedValue])
 
 
     return (
@@ -44,15 +61,15 @@ const Catolog = () => {
                 {arr.map((x,i) => {
                     return (
                         <li key={i} className="Category" >
-                            <a href='#' className='aCategory' onClick={() => toggleChoose(x)}>
-                                <div className="image" style={{ backgroundColor: choose === x ? "rgb(255, 250, 199)" : " " }}>
-                                    <div style={{ backgroundColor: choose === x ? "rgb(240, 235, 180)" : " " }}>
-                                        <img src="https://cdn-icons-png.flaticon.com/512/561/561611.png"></img>
+                            <a href='#' className='aCategory' onClick={() => toggleChoose(x.code)}>
+                                <div className="image" style={{ backgroundColor: choose === x.code ? "rgb(255, 250, 199)" : " " }}>
+                                    <div style={{ backgroundColor: choose === x.code ? "rgb(240, 235, 180)" : " " }}>
+                                        <img src={x.imageURL}></img>
                                     </div>
 
                                 </div>
-                                <div className="Categoryname" style={{ backgroundColor: choose === x ? "rgb(255, 250, 199)" : " " }}>
-                                    <span>All</span>
+                                <div className="Categoryname" style={{ backgroundColor: choose === x.code ? "rgb(255, 250, 199)" : " " }}>
+                                    <span>{x.name}</span>
                                 </div>
                             </a>
                         </li>

@@ -5,14 +5,17 @@ import axios from "axios";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
 import {useNavigate} from "react-router";
-
-
+import { MultiSelect } from "react-multi-select-component";
+import Select from "react-select";
 
 
 const AddBox = () => {
     const [image, setImage] = useState(null);
     const filepickerRef = useRef(null);
     const navigate = useNavigate()
+
+    const [options,setOptions] = useState()
+    const [categories,setCategories] = useState([])
     const firebaseConfig = {
         apiKey: "AIzaSyBeKFJZLSF6n3eVckKjD3DoNTc-lVvMPCo",
         authDomain: "orderup-1678757977213.firebaseapp.com",
@@ -22,6 +25,8 @@ const AddBox = () => {
         appId: "1:79812574000:web:f8cc2cd153302428e6e6f5",
         measurementId: "G-TVS2KTGT6C"
     };
+
+
 
     firebase.initializeApp(firebaseConfig);
 
@@ -61,6 +66,7 @@ const AddBox = () => {
         name:"",
         price:0,
         detail:"",
+        categories:[],
         images:[],
         restaurant_id:""
     });
@@ -75,6 +81,17 @@ const AddBox = () => {
 
     useEffect(()=>{
       setToken('Bearer '+localStorage.getItem("token"))
+
+       axios.get(`http://localhost:8081/api/OrderUp/GET_ALL_CATEGORIES`)
+           .then((response)=>{
+               console.log(response.data.data)
+               const  op = response.data.data.map((o)=>{
+                   return({label:o.name,
+                   value:o.code
+                   })
+               })
+               setOptions(op)
+           })
     },[])
 
 
@@ -142,6 +159,11 @@ const AddBox = () => {
             alert("Please input your id");
             return false;
         }
+        if(categories.at(0) == null)
+        {
+            alert("Danh mục không được để trống");
+            return false;
+        }
 
         return true;
     };
@@ -152,18 +174,38 @@ const AddBox = () => {
         requestData.detail = detail;
         requestData.name = name;
         requestData.price = price;
+        requestData.categories= categories;
         requestData.images = [...images,image];
-    },[name,price,detail,image,restaurant_id])
+    },[name,price,detail,image,restaurant_id,categories])
+
+
+    useEffect(()=>{
+        requestData.restaurant_id = "63f32452db59e56a489911ef"
+    },[])
+
+    // const options = [
+    //     { label: "Cháo", value: "CHAO" },
+    //     { label: "Bún", value: "BUN" },
+    //     { label: "Trà sữa", value: "TRASUA" },
+    //     { label: "Burger", value: "BURGER" },
+    // ];
+
+    const [selected, setSelected] = useState([]);
 
 
     useEffect(()=>{
 
+        const cat = selected.map((selected)=>{
+            return(selected.value)
+        })
+        setCategories(cat)
+    },[selected])
 
-        requestData.restaurant_id = "63f32452db59e56a489911ef"
-    },[])
 
 
-
+    useEffect(()=>{
+        console.log("option: ",options)
+    },[options])
 
 
 
@@ -200,7 +242,13 @@ const AddBox = () => {
                     />
                     <input type="text" placeholder="Tên món ăn "  onChange={(e)=>{setName(e.target.value)}}/>
                     <input type="number" placeholder="Giá tiền "  onChange={(e)=>{setPrice(e.target.value)}}/>
-                    <input type="text" placeholder="danh mục"  />
+                    {options&&<Select
+                        isMulti
+                        value={selected}
+                        onChange={setSelected}
+                        options={options}
+                        placeholder="danh muc"
+                    /> }
                     <textarea
                         className="addBox__about"
                         placeholder="Mô tả ..."
