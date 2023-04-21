@@ -1,7 +1,31 @@
 import './DashBoard.css'
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 function DashBoard(){
 
+
+    const  [stats,setStats] = useState({})
+
+
+    useEffect(()=>{
+
+        const token = localStorage.getItem("token")
+        axios.get(process.env.REACT_APP_URL_ADMIN_GET_STATS,{
+            headers: {
+                authorization:
+                    `Bearer ${token}`
+            },
+        })
+            .then((response)=>{
+                console.log(response)
+                setStats(response.data.data.stats)
+            })
+    },[])
+
+    useEffect(()=>{
+        console.log("stats: ",stats)
+    },[stats])
     return(
     <div className="dashboard">
         <div className="order">
@@ -13,7 +37,7 @@ function DashBoard(){
                         TOTAL ORDERS
                     </span>
                     <span className="number">
-                        23232
+                        {stats.order}
                     </span>
                 </span>
             </div>
@@ -35,7 +59,7 @@ function DashBoard(){
                         TOTAL PRODUCTS
                     </span>
                     <span className="number" >
-                        23232
+                        {stats.product}
                     </span>
                 </span>
             </div>

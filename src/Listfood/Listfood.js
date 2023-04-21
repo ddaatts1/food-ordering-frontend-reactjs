@@ -3,6 +3,7 @@ import './Listfood.css'
 import React, {useContext, useEffect, useState} from "react";
 import {Cart, CartContext, CartProvider} from "../Cart/Cart";
 import axios from "axios";
+import Popup from "reactjs-popup";
 
 const Listfood = () => {
 
@@ -54,14 +55,24 @@ const Listfood = () => {
 
 export const ProductItem = ({ product }) => {
     const { addToCart } = useContext(CartContext);
+    const [showPopup, setShowPopup] = useState(false);
 
     // Function to handle Add to Cart button click
     const handleAddToCart = () => {
         addToCart(product);
     };
 
+    function handleMouseEnter() {
+        setShowPopup(true)
+    }
+
+    function handleMouseLeave() {
+        setShowPopup(false)
+    }
+
     return (
-        <a className="card" href='#' onClick={handleAddToCart}>
+        <Popup open={showPopup}  trigger={<div    onClick={handleMouseEnter}
+                                  onMouseLeave={handleMouseLeave} className="card" href='' >
             <div className="image">
                 <div>
                     <img
@@ -92,12 +103,13 @@ export const ProductItem = ({ product }) => {
                 </div>
 
             </div>
-        </a>
-        // <div>
-        //     <h3>{product.name}</h3>
-        //     <p>{product.price}</p>
-        //     <button onClick={handleAddToCart}>Add to Cart</button>
-        // </div>
+        </div>
+        } position="center center"><div className="cardButton">
+            <div><button  onClick={handleAddToCart}>Thêm vào giỏ hàng </button></div>
+            <div><button >Chi tiết</button></div>
+
+        </div></Popup>
+
     );
 };
 

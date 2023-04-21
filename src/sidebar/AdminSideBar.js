@@ -12,7 +12,7 @@ import {
     faCircleInfo,
     faUtensilSpoon,
     faUtensils,
-    faEdit, faMessage
+    faEdit, faMessage, faClipboardList
 } from "@fortawesome/free-solid-svg-icons";
 import './Sidebar.css'
 import {Link} from "react-router-dom";
@@ -69,12 +69,12 @@ const AdminSideBar = () => {
                 </Link>
             </li>
             <li>
-                <a href="#"
+                <a href="/management/order"
                    style={{ borderLeft: choose === "Infor" ? "2px solid white" : "" }}
                    onClick={() => toggleIcon("Infor")}
                    choose={choose}
                 >
-                    <FontAwesomeIcon icon={faCircleInfo} style={{ color: "white" }} />
+                    <FontAwesomeIcon icon={faClipboardList} style={{ color: "white" }} />
                 </a>
             </li>
         </ul>

@@ -18,6 +18,7 @@ import CartE from "./Cart/CartE";
 import UserListFood from "./Listfood/UserListFood";
 import DisplayCart from "./Cart/DisplayCart";
 import {CartProvider} from "./Cart/Cart";
+import Order from "./Admin/order/Order";
 function App() {
   return (
       <AuthProvider>
@@ -26,7 +27,7 @@ function App() {
             <Route  path="/" element={<HomePage />}>
               <Route path="" element={<UserListFood/>}></Route>
               <Route path="cart" element={<CartProvider><DisplayCart/></CartProvider>}></Route>
-
+              <Route path="chat" element={<ChatApp/>}></Route>
             </Route>
             <Route path="/detail/:id" element={<FoodDetail />}></Route>
             <Route path="/register" element={<SignUp/>}></Route>
@@ -40,6 +41,7 @@ function App() {
               <Route path="chat" element={<ChatApp/>}></Route>
               <Route path="Items" element={<AdminListItems/>}></Route>
               <Route path="Items/EditItem" element={<EditBox/>}></Route>
+              <Route path="order" element={<Order/>}></Route>
             </Route>
             <Route path="/ChatApp" element={<ChatApp/>}></Route>
             <Route path="/menu" element={<CartE/>}></Route>

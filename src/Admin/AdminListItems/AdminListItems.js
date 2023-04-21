@@ -62,7 +62,7 @@ function AdminListItems(){
     // }, []);
 
 
-    function onOffItem(id,status){
+    function changeStatus(id,status){
 
         const requestData = {
             _id:id,
@@ -80,7 +80,8 @@ function AdminListItems(){
                 console.log("on off response: ",response)
                 if(response.data.code == 1){
                     alert("thanh cong ")
-fetchData()                }
+            fetchData()
+                }
                 else {
                     alert("that bai!")
                 }
@@ -124,21 +125,21 @@ fetchData()                }
 
             <table className="adminListItem">
                 <th className="Item_header">
-                    <td style={{"flexGrow":"1"}} >STT</td>
-                    <td style={{"flexGrow":"5"}}>TÊN</td>
-                    <td style={{"flexGrow":"2"}}>GIÁ</td>
-                    <td style={{"flexGrow":"2"}}>TRẠNG THÁI</td>
+                    <td style={{"flexGrow":"1",width:"50px"}} >STT</td>
+                    <td style={{width:"200px"}}>TÊN</td>
+                    <td style={{"flexGrow":"2",width:"100px"}}>GIÁ</td>
+                    <td style={{"flexGrow":"2",width:"100px"}}>TRẠNG THÁI</td>
                     <td style={{"flexGrow":"5"}}></td>
                 </th>
                 {res && res.content.map((item,i)=>{
                     return(
                         <tr key={i} className="Item">
-                            <td style={{"flexGrow":"1"}}>{i+1}</td>
-                            <td style={{"flexGrow":"5"}}>{item.name}</td>
-                            <td style={{"flexGrow":"2"}}>{item.price}</td>
-                            <td style={{"flexGrow":"2"}}>{item.status}</td>
+                            <td style={{"flexGrow":"1",width:"50px"}}>{i+1}</td>
+                            <td style={{width:"200px"}}>{item.name}</td>
+                            <td style={{"flexGrow":"2",width:"100px"}}>{item.price}</td>
+                            <td style={{"flexGrow":"2",width:"100px"}}>{item.status}</td>
                             <td style={{"flexGrow":"5"}}>
-                                <button onClick={()=>{onOffItem(item._id,item.status==="ON"?"OFF":"ON")}}  style={item.status == "ON"?{"background":"#C7390C"}:{"background":"#245618"}}>{item.status == "ON"? "off":"on"}</button>
+                                <button onClick={()=>{changeStatus(item._id,item.status==="ON"?"OFF":"ON")}}  style={item.status == "ON"?{"background":"#C7390C"}:{"background":"#245618"}}>{item.status == "ON"? "off":"on"}</button>
                                 <button style={{"background":"#7F4F40"}} ><Link style={{"color":"white"}} to={`EditItem?_id=${item._id}`}>edit</Link></button>
 
                                 <button onClick={()=>{deleteItem(item._id)}} style={{"background":"#000000"}}>delete</button>
