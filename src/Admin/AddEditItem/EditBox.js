@@ -6,7 +6,6 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
 import {useSearchParams} from "react-router-dom";
 import {useNavigate} from "react-router";
-import {MultiSelect} from "react-multi-select-component";
 import Select from "react-select";
 
 

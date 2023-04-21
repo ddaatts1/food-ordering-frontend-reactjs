@@ -28,8 +28,9 @@ function App() {
               <Route path="" element={<UserListFood/>}></Route>
               <Route path="cart" element={<CartProvider><DisplayCart/></CartProvider>}></Route>
               <Route path="chat" element={<ChatApp/>}></Route>
+              <Route path="detail" element={<FoodDetail/>}></Route>
             </Route>
-            <Route path="/detail/:id" element={<FoodDetail />}></Route>
+            {/*<Route path="/detail/:id" element={<FoodDetail />}></Route>*/}
             <Route path="/register" element={<SignUp/>}></Route>
             <Route  path="/login"  element={<LoginForm/>}></Route>
             <Route path="/TestResponsive" element={<TestResponsive/>}></Route>
