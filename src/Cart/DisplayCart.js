@@ -62,7 +62,7 @@ function DisplayCart() {
         axios.post(process.env.REACT_APP_URL_USER_ORDER,payload)
             .then((response)=>{
                 console.log("response: ",response)
-
+                alert("Mua hàng thành công ")
             })
     }
 

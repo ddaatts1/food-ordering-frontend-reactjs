@@ -8,6 +8,7 @@ import 'firebase/compat/firestore';
 import {useAuthState} from "react-firebase-hooks/auth";
 import "./ChatBox.css"
 import * as PropTypes from "prop-types";
+import axios from "axios";
 
 
 
@@ -161,6 +162,46 @@ function ChatRoom(props) {
     //     return unsubscribe;
     // }, [props.toUser]);
 
+    //
+    // useEffect(() => {
+    //     const unsubscribe1 = onSnapshot(
+    //         query(
+    //             messagesRef,
+    //             where('uid', '==', user.uid),
+    //             where('toUser', '==', props.toUser),
+    //             orderBy('createdAt', 'asc') // Order by createdAt in ascending order
+    //         ),
+    //         (querySnapshot) => {
+    //             const messages1 = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    //             console.log('messages1: ', messages1);
+    //             // Update messages state with messages1
+    //             setMessages((prevMessages) => [...prevMessages, ...messages1]);
+    //         }
+    //     );
+    //
+    //     const unsubscribe2 = onSnapshot(
+    //         query(
+    //             messagesRef,
+    //             where('uid', '==', props.toUser),
+    //             where('toUser', '==', user.uid),
+    //             orderBy('createdAt', 'asc') // Order by createdAt in ascending order
+    //         ),
+    //         (querySnapshot) => {
+    //             const messages2 = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    //             console.log('messages2: ', messages2);
+    //             // Update messages state with messages2
+    //             setMessages((prevMessages) => [...prevMessages, ...messages2]);
+    //         }
+    //     );
+    //
+    //     // Unsubscribe from the listeners when the component unmounts
+    //     return () => {
+    //         unsubscribe1();
+    //         unsubscribe2();
+    //     };
+    // }, [props.toUser]);
+    //
+
 
 
     useEffect(() => {
@@ -171,12 +212,16 @@ function ChatRoom(props) {
             orderBy("createdAt", "asc")
         ),(querySnapshot) => {
             const messageData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+            console.log("messageData: ",messageData)
+            console.log("uid:",user.uid)
+            console.log("touser:",props.toUser)
             setMessages(messageData);
         });
 
         // Unsubscribe from the listener when the component unmounts
         return unsubscribe;
     }, [props.toUser]);
+
 
 
     const sendMessage = async (e) => {
@@ -214,10 +259,32 @@ function ChatRoom(props) {
 
 function SignIn() {
 
+    const [prov,setProv] = useState()
     const signInWithGoogle = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider);
     }
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            console.log("user: ",user)
+            console.log("uid: ",user.uid)
+
+            const token = localStorage.getItem("token")
+
+            axios.post(`${process.env.REACT_APP_URL_ADD_GOOGLE_UID}?uid=${user.uid}&email=${user.email}`,{},{
+                headers :{
+                    Authorization: "Bearer "+token
+                }
+            }).then((response)=>{
+                console.log("response: ",response)
+            })
+        });
+
+        return unsubscribe;
+    }, []);
+
+
 
     return (
         <>

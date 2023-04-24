@@ -5,6 +5,7 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {auth, db} from "./firebaseConfig";
 import {collection, getDocs, orderBy, query, where} from "@firebase/firestore";
 import ChatBoxTest from "./ChatBoxTest";
+import axios from "axios";
 
 
 
@@ -20,36 +21,86 @@ function ChatApp(){
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user) {
                 const getMessages = async () => {
-                    const querySnapshot = await getDocs(query(collection(db, 'messages'),
-                        where('toUser', '==', user.uid)
-                        // where("toUser","==",user.uid)
+                    const querySnapshot1 = await getDocs(query(collection(db, 'messages'),
+                        where('uid', '==', user.uid)
                     ));
 
-                    const messageData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-                    console.log("docs: ",querySnapshot.docs)
-                    const uniqueUser = querySnapshot.docs.reduce((users,curr)=>{
-                        // if (!user.includes({
-                        //     uid:curr.data().uid,
-                        //     displayName:curr.data().displayName})) {
-                        //     user.push(
-                        //         {
-                        //             uid:curr.data().uid,
-                        // displayName:curr.data().displayName})
-                        // }
-                        // return user;
-                        const user = {
+                    console.log("querySnapshot1: ",querySnapshot1)
+                    const querySnapshot2 = await getDocs(
+                        query(
+                            collection(db, 'messages'),
+                            where('toUser', '==', user.uid),
+                        )
+                    );
+                    console.log("querySnapshot2: ",querySnapshot2)
+
+                    const querySnapshot = querySnapshot1.docs.concat(querySnapshot2.docs)
+                    console.log("querySnapshot: ",querySnapshot)
+                    const messageData = querySnapshot.map((doc) => ({ ...doc.data(), id: doc.id }));
+                    console.log("docs: ",querySnapshot)
+                    // const uniqueUser = querySnapshot.docs.reduce((users,curr)=>{
+                    //     let user = {
+                    //         uid: curr.data().uid,
+                    //         displayName: curr.data().displayName,
+                    //     };
+                    //
+                    //     axios.get(`http://localhost:8081/api/admin/OrderUp/GET_RESTAURANT_BY_GOOGLE_UID?uid=${user.uid}`)
+                    //         .then((response)=>{
+                    //             console.log("response: ",response)
+                    //             if(response.data.data != null){
+                    //                 user = {...user,displayName: response.data.data}
+                    //                 console.log("user: ",user)
+                    //
+                    //             }
+                    //         })
+                    //
+                    //     if (!users.some((u) => u.uid === user.uid && u.displayName === user.displayName)) {
+                    //         users.push(user);
+                    //     }
+                    //
+                    //     return users;
+                    // },[]);
+
+                    const uniqueUser1 = await Promise.all(querySnapshot.map(async (curr) => {
+                        let user = {
                             uid: curr.data().uid,
                             displayName: curr.data().displayName,
                         };
-                        if (!users.some((u) => u.uid === user.uid && u.displayName === user.displayName)) {
-                            users.push(user);
-                        }
-                        return users;
-                    },[]);
 
-                    console.log("data: ",querySnapshot.docs)
+                        const response = await axios.get(`${process.env.REACT_APP_URL_USER_GET_RESTAURANT_BY_GOOGLE_UID}?uid=${curr.data().uid}`);
+                        if (response.data.data != null) {
+                            user = { ...user, displayName: response.data.data };
+                        }
+
+                        return user;
+                    }));
+
+                    const uniqueUser2 = await Promise.all(querySnapshot.map(async (curr) => {
+                        let user = {
+                            uid: curr.data().toUser,
+                            displayName: curr.data().displayName,
+                        };
+
+                        const response = await axios.get(`${process.env.REACT_APP_URL_USER_GET_RESTAURANT_BY_GOOGLE_UID}?uid=${curr.data().toUser}`);
+                        if (response.data.data != null) {
+                            user = { ...user, displayName: response.data.data };
+                        }
+
+                        return user;
+                    }));
+
+                    const uniqueUser = uniqueUser1.concat(uniqueUser2)
                     console.log("uniqueUser: ",uniqueUser)
-                    setListUserId(uniqueUser)
+
+
+
+                    const uniqueUserFiltered = uniqueUser.filter((user, index, self) =>
+                        index === self.findIndex((u) => u.uid === user.uid && u.displayName === user.displayName)
+                    );
+
+                    console.log("data: ",querySnapshot)
+                    console.log("uniqueUser: ",uniqueUserFiltered)
+                    setListUserId(uniqueUserFiltered)
                 };
                 getMessages();
             }

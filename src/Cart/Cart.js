@@ -8,8 +8,8 @@ const cartReducer = (state, action) => {
     switch (action.type) {
         case "ADD_TO_CART":
             add({ ...action.payload, quantity: 1 });
-            console.log("add to cart",{ ...action.payload, newProperty: 'value' })
-            return { ...state, cartItems: [...state.cartItems, { ...action.payload, newProperty: 'value' }] };
+            console.log("add to cart",{ ...action.payload, quantity: 1 })
+            return { ...state, cartItems: [...state.cartItems, { ...action.payload, quantity: 1 }] };
             case "REMOVE_FROM_CART":
             remove(action.payload)
             return {

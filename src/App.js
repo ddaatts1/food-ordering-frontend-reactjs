@@ -28,7 +28,7 @@ function App() {
               <Route path="" element={<UserListFood/>}></Route>
               <Route path="cart" element={<CartProvider><DisplayCart/></CartProvider>}></Route>
               <Route path="chat" element={<ChatApp/>}></Route>
-              <Route path="detail" element={<FoodDetail/>}></Route>
+              <Route path="detail" element={<CartProvider><FoodDetail/></CartProvider>}></Route>
             </Route>
             {/*<Route path="/detail/:id" element={<FoodDetail />}></Route>*/}
             <Route path="/register" element={<SignUp/>}></Route>
@@ -44,7 +44,7 @@ function App() {
               <Route path="Items/EditItem" element={<EditBox/>}></Route>
               <Route path="order" element={<Order/>}></Route>
             </Route>
-            <Route path="/ChatApp" element={<ChatApp/>}></Route>
+            {/*<Route path="/ChatApp" element={<ChatApp/>}></Route>*/}
             <Route path="/menu" element={<CartE/>}></Route>
           </Routes>
         </BrowserRouter>
