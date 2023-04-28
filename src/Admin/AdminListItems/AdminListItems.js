@@ -3,6 +3,7 @@ import "./AdminListItems.css"
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import {useNavigate} from "react-router";
 
 function AdminListItems(){
 
@@ -12,6 +13,7 @@ function AdminListItems(){
     const [pageContent, setPageContent] = useState()
     const [page, setPage] = useState(0)
     const [empty, setEmpty] = useState(false)
+    const navigate = useNavigate()
     const handlePageChange = (page) => {
 
     };
@@ -43,6 +45,7 @@ function AdminListItems(){
                 }            })
             .catch((error) => {
                 console.log(error);
+                navigate("/login")
             });
     }
     useEffect(()=>{

@@ -26,7 +26,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 50vh;
+    min-height: 83vh;
     background-color: rgb(40, 37, 53);
 }
 
@@ -51,7 +51,7 @@ main::-webkit-scrollbar-thumb {
     background: #6649b8;
 }
 
-form {
+.chatForm {
     height: 10vh;
     position: fixed;
     bottom: 0;
@@ -62,7 +62,7 @@ form {
     font-size: 1.5rem;
 }
 
-form .sendMessage {
+.chatForm .sendMessage {
     width: 20%;
     background-color: rgb(56, 56, 143);
 }
@@ -143,7 +143,7 @@ p {
     color: black;
 }
 
-img {
+.chatImg {
     width: 40px;
     height: 40px;
     border-radius: 50%;

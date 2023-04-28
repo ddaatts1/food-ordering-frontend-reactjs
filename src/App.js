@@ -19,6 +19,7 @@ import UserListFood from "./Listfood/UserListFood";
 import DisplayCart from "./Cart/DisplayCart";
 import {CartProvider} from "./Cart/Cart";
 import Order from "./Admin/order/Order";
+import SendOTP from "./Order/SendOTP";
 function App() {
   return (
       <AuthProvider>
@@ -46,6 +47,7 @@ function App() {
             </Route>
             {/*<Route path="/ChatApp" element={<ChatApp/>}></Route>*/}
             <Route path="/menu" element={<CartE/>}></Route>
+            <Route path="/otp" element={<SendOTP/>}></Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>

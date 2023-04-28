@@ -78,7 +78,7 @@ function DisplayCart() {
                             <li key={index}>
                                 <span className="image">
                                     <img style={{objectFit: "cover"}}
-                                         src="https://cdn.tgdd.vn/Files/2017/03/22/963765/cach-lam-ga-ran-thom-ngon-8_760x450.jpg"/>
+                                         src={item.image_url }/>
                                     </span>
                                 <div className="namePrice">
                                     <span className="name">{item.name}</span>

@@ -164,10 +164,11 @@ function Order() {
                                             style={item.status == "ON" ? {"background": "#C7390C"} : {"background": "#245618"}}>{item.orderStatus == "PENDING" ? "Duyệt" : item.orderStatus == "DELIVERY" ? "Đã giao" :item.orderStatus == "DELETE"? "Đã hủy":"Đã giao"}</button>
 
                                     {/*{showPopup && <div>Popup content goes here</div>}*/}
-                                    <Popup trigger={<button
+                                    <Popup open={showPopup} trigger={<button
                                         style={{ background: '#7F4F40' }}
                                         onMouseDown={handleMouseDown}
                                         onMouseUp={handleMouseUp}
+
                                     >detail</button>} position="bottom center">
                                         <div className='popup'>
                                             <ul>

@@ -6,21 +6,26 @@ import axios from "axios";
 import Popup from "reactjs-popup";
 import {useNavigate} from "react-router";
 
-const Listfood = () => {
+const Listfood = ({selectedCategory}) => {
 
 
     const [products,setProduct] = useState([])
 
 
 
+    useEffect(()=>{
+
+        console.log("category: ",selectedCategory)
+    },[selectedCategory])
+
     useEffect(() => {
         const payload = {
-            restaurant_id: "64265a0baab30d0971ef63aa",
-            category_id: "CHAO",
+            restaurant_id: "",
+            category_id: selectedCategory,
             address_long: 21.034109,
             address_lat: 105.780162,
             page: 0,
-            size: 4
+            size: 10
         };
 
         axios
@@ -34,7 +39,7 @@ const Listfood = () => {
                 // handle error
                 console.log(error);
             });
-    }, []);
+    }, [selectedCategory]);
 
 
 
@@ -62,6 +67,7 @@ export const ProductItem = ({ product }) => {
     // Function to handle Add to Cart button click
     const handleAddToCart = () => {
         addToCart(product);
+        alert("Đã thêm vào giỏ hàng")
     };
 
     function handleMouseEnter() {
@@ -78,7 +84,7 @@ export const ProductItem = ({ product }) => {
             <div className="image">
                 <div>
                     <img
-                        src='https://media.istockphoto.com/id/1207976129/vi/anh/cận-cảnh-gà-rán-trên-đĩa-trắng-cách-ly-trên-bàn-nhìn-yummy-và-màu-vàng-vàng.jpg?s=612x612&w=0&k=20&c=HqgqDDPQJgee2FZRLCUuKu8Rp36VQT_QinNFE97UPcA='></img>
+                        src={product.image_url}></img>
                 </div>
 
             </div>

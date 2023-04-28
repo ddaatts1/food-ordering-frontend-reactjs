@@ -90,7 +90,7 @@ const FoodDetail = () => {
             <div className="foodDetail">
                 <div className="foodImage">
 
-                    <img src="https://cdn.tgdd.vn/Files/2017/03/22/963765/cach-lam-ga-ran-thom-ngon-8_760x450.jpg"/>
+                    <img src={product.image}/>
                 </div>
                 <div className="foodInfo">
                     <div className="foodName">{product.name} </div>
@@ -114,7 +114,7 @@ const FoodDetail = () => {
                         <button onClick={()=>{handleAddToCart({image :"",
                             _id:product._id,
 
-                            image_url:"",
+                            image_url:product.image,
                             name:product.name,
                                 ordered:1,
                             price:product.price,
@@ -130,7 +130,7 @@ const FoodDetail = () => {
                     return(
                         <div key={index}  className="relateItemCard">
                             <div className="relateItemImage">
-                                <img src="https://cdn.tgdd.vn/Files/2017/03/22/963765/cach-lam-ga-ran-thom-ngon-8_760x450.jpg"/>
+                                <img src={r.image}/>
                             </div>
                             <div className="relateItemInfo">
 
