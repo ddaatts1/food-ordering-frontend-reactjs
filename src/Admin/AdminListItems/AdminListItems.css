@@ -86,13 +86,14 @@ text-align: center;
 
 .Item button{
     color: white;
-    width: 50px;
+    width: 64px;
     height: 25px;
     border: none;
     font-size: 10px;
     margin-right: 5px;
     font-weight: bold;
     border-radius: 6px;
+    cursor: pointer;
 
 }
 

@@ -20,6 +20,7 @@ import DisplayCart from "./Cart/DisplayCart";
 import {CartProvider} from "./Cart/Cart";
 import Order from "./Admin/order/Order";
 import SendOTP from "./Order/SendOTP";
+import UserListOrder from "./Order/ListOrder";
 function App() {
   return (
       <AuthProvider>
@@ -30,6 +31,7 @@ function App() {
               <Route path="cart" element={<CartProvider><DisplayCart/></CartProvider>}></Route>
               <Route path="chat" element={<ChatApp/>}></Route>
               <Route path="detail" element={<CartProvider><FoodDetail/></CartProvider>}></Route>
+              <Route path="/order" element={<UserListOrder/>}></Route>
             </Route>
             {/*<Route path="/detail/:id" element={<FoodDetail />}></Route>*/}
             <Route path="/register" element={<SignUp/>}></Route>

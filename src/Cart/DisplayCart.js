@@ -15,6 +15,9 @@ function DisplayCart() {
     const [phone, setPhone] = useState("")
     const [note, setNote] = useState("")
     const [method, setMethod] = useState("house")
+    const [from,setFrom] = useState('')
+    const [to,setTo] = useState('')
+    const [shippingFee,setShippingFee] = useState(0)
     // Function to handle Remove from Cart button click
     const handleRemoveFromCart = (item) => {
         removeFromCart(item);
@@ -36,34 +39,91 @@ function DisplayCart() {
     }, [name, method])
 
 
-    function buy() {
-        const items = JSON.parse(localStorage.getItem("cart"));
 
-        const payload = {
+    useEffect(()=>{
 
-            name: name,
-            phone: phone,
-            method: method,
-            note: note,
-            address_lat: 0,
-            address_long: 0,
-            address_detail: localStorage.getItem("address"),
-            items: items.map((i) => {
-                return {
-                    _id: i._id,
-                    quantity: i.quantity,
-                    restaurantId: i.restaurantId
-                }
+        const  t = localStorage.getItem("address");
+        const cart = JSON.parse(localStorage.getItem('cart'));
+        const f = cart[0].resAddress;
+        setFrom(f)
+        setTo(t)
+
+    },[])
+
+    useEffect(()=>{
+
+            console.log("from: ",from)
+            console.log("to: ",to)
+        const f = localStorage.getItem("address");
+        if(f == null){
+            alert("Vui lòng nhập địa chỉ của bạn")
+        }else {
+
+            axios.post(`${process.env.REACT_APP_URL_USER_GET_SHIPPING_FEE}`,{
+                from: from,
+                to:to
             })
+                .then((response)=>{
+                    console.log("shipping fee response: ",response)
+                    setShippingFee(response.data.data)
+                })
+        }
+
+    },[to])
+
+    // useEffect(()=>{
+    //     console.log("from: ",from)
+    //     console.log("to: ",to)
+    //
+    // },[to])
+
+
+
+
+    function buy() {
+
+        const t = localStorage.getItem("address")
+        if(t == '' || t == null){
+            alert("Vui lòng nhập vị trí của bạn ")
+
+        }else if(name ==''){
+            alert("Vui lòng nhập tên ")
+
+        }else if(phone == ''){
+            alert("Vui lòng nhập số điện thoại ")
 
         }
 
-        console.log("payload: ", payload)
-        axios.post(process.env.REACT_APP_URL_USER_ORDER,payload)
-            .then((response)=>{
-                console.log("response: ",response)
-                alert("Mua hàng thành công ")
-            })
+        else {
+            const items = JSON.parse(localStorage.getItem("cart"));
+
+            const payload = {
+
+                name: name,
+                phone: phone,
+                method: method,
+                note: note,
+                address_lat: 0,
+                address_long: 0,
+                address_detail: localStorage.getItem("address"),
+                items: items.map((i) => {
+                    return {
+                        _id: i._id,
+                        quantity: i.quantity,
+                        restaurantId: i.restaurantId
+                    }
+                })
+
+            }
+
+            console.log("payload: ", payload)
+            axios.post(process.env.REACT_APP_URL_USER_ORDER,payload)
+                .then((response)=>{
+                    console.log("response: ",response)
+                    alert("Mua hàng thành công ")
+                })
+        }
+
     }
 
 
@@ -107,6 +167,8 @@ function DisplayCart() {
                             </li>
                         ))}
                     </ul>
+                    <div className="shipping">
+                        <span>Phí ship: {shippingFee }</span></div>
                 </div>
                 <div className="divRight">
                     <div className="label"><span> Thông tin khách hàng</span></div>

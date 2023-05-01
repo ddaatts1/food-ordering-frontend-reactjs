@@ -128,13 +128,13 @@ const Sidebar = () => {
                 </Link>
             </li>
             <li>
-                <a href="#"
+                <Link to="/order"
                    style={{ borderLeft: choose === "Infor" ? "2px solid white" : "" }}
                    onClick={() => toggleIcon("Infor")}
                    choose={choose}
                 >
                     <FontAwesomeIcon icon={faCircleInfo} style={{ color: "white" }} />
-                </a>
+                </Link>
             </li>
         </ul>
     );

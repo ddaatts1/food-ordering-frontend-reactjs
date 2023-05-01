@@ -182,6 +182,10 @@ const Map = () => {
         }
     }
 
+    useEffect(()=>{
+
+        localStorage.setItem("address",addressBox)
+    },[addressBox])
 
 
     const handleLocationError = (browserHasGeolocation, infoWindow, pos) => {
@@ -201,7 +205,8 @@ const Map = () => {
     return (
 
         <div className='positionParent' style={{ position: 'relative' }}>
-            <input value={addressBox} onChange={(event) => setAddressBox(event.target.value)} placeholder='Vị trí của bạn' className='positionBox' type="text" style={{ position: 'absolute' }} />
+            <input value={addressBox} onChange={(event) => {setAddressBox(event.target.value)
+            }} placeholder='Vị trí của bạn' className='positionBox' type="text" style={{ position: 'absolute' }} />
             <div className="locationIcon" onClick={handleShowMapClick} style={{ position: 'absolute', top: 0, right: -9 }}></div>
             <div className="locationIcon1" style={{ position: 'absolute', top: 5, left: 6 }}></div>
 

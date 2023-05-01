@@ -113,7 +113,7 @@ const FoodDetail = () => {
                     <div className="addToCart">
                         <button onClick={()=>{handleAddToCart({image :"",
                             _id:product._id,
-
+                            resAddress: product.restaurant.address,
                             image_url:product.image,
                             name:product.name,
                                 ordered:1,
