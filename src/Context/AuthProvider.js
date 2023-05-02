@@ -10,12 +10,20 @@ export const AuthProvider = ({ children }) => {
     });
 
     useEffect(()=>{
+
+        const  isAuthenticated = localStorage.getItem("isAuthenticated")== "true"? true: false;
+        const token =  localStorage.getItem("token");
         setAuthState({
-            isAuthenticated: localStorage.getItem("isAuthenticated")== "true"? true: false,
-            token:  localStorage.getItem("token"),
+            isAuthenticated: isAuthenticated,
+            token: token,
         })
 
     },[])
+
+    useEffect(()=>{
+
+        console.log("authState provider: ",authState)
+    },[authState])
 
 
 
@@ -28,6 +36,7 @@ export const AuthProvider = ({ children }) => {
              localStorage.setItem("token",token)
 
     }
+
 
     const logout = () =>{
         setAuthState({

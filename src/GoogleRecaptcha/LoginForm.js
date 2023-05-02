@@ -5,6 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import {useAuth} from "../Context/useAuth";
 import {useNavigate} from "react-router";
+import {decodeToken} from "react-jwt";
 
 const Login = () => {
 
@@ -30,7 +31,21 @@ const Login = () => {
             await axios.post(process.env.REACT_APP_URL_LOGIN ,getInputs()).then((r)=>{
                 console.log("response: ",r.data)
                 setResponse(r.data)
-                navigate('/management' );
+                const myDecodedToken = decodeToken(r.data.message);
+                console.log("myDecodedToken: ",myDecodedToken)
+                if(myDecodedToken != null)
+                   if(myDecodedToken.role == "MANAGER"){
+                       setTimeout(() => {
+                           navigate('/management' );
+                       }, 2000);// 2s
+                   }
+                else {
+                       setTimeout(() => {
+                           navigate('/SystemManagement' );
+                       }, 2000);// 2s
+                   }
+
+
 
 
             }).catch((error) => {

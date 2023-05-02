@@ -21,6 +21,11 @@ import {CartProvider} from "./Cart/Cart";
 import Order from "./Admin/order/Order";
 import SendOTP from "./Order/SendOTP";
 import UserListOrder from "./Order/ListOrder";
+import JwtDecrypt from "./JwtDecrypt/JwtDecrypt";
+import SystemManagement from "./SystemManagement/SystemManagement";
+import SystemDashBoard from "./Admin/DashBoard/SystemDashBoard";
+import SystemEdit from "./Admin/AddEditItem/SystemEdit";
+import ListRes from "./Admin/AdminListItems/ListRes";
 function App() {
   return (
       <AuthProvider>
@@ -38,7 +43,7 @@ function App() {
             <Route  path="/login"  element={<LoginForm/>}></Route>
             <Route path="/TestResponsive" element={<TestResponsive/>}></Route>
             <Route path="/validateOTP" element={<OTPForm/>}></Route>
-            <Route path="/management" element={<ProtectedRoute element={<AdminManagement/>} />} >
+            <Route path="/management" element={<ProtectedRoute element={<AdminManagement/>} userRole="MANAGER" />} >
               <Route path="" element={<DashBoard/>}/>
               <Route path="add" element={<AddBox/>}/>
               <Route path="detail" element={<FoodDetail/>}></Route>
@@ -47,9 +52,18 @@ function App() {
               <Route path="Items/EditItem" element={<EditBox/>}></Route>
               <Route path="order" element={<Order/>}></Route>
             </Route>
+            <Route path="/SystemManagement" element={<ProtectedRoute element={<SystemManagement/>} userRole="ADMIN" />} >
+              <Route path="" element={<SystemDashBoard/>}/>
+              <Route path="edit" element={<SystemEdit/>}/>
+              <Route path="restaurants" element={<ListRes/>}></Route>
+
+            </Route>
+
+
             {/*<Route path="/ChatApp" element={<ChatApp/>}></Route>*/}
             <Route path="/menu" element={<CartE/>}></Route>
             <Route path="/otp" element={<SendOTP/>}></Route>
+            <Route path="/token" element={<JwtDecrypt/>}></Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>
