@@ -44,9 +44,12 @@ function DisplayCart() {
 
         const  t = localStorage.getItem("address");
         const cart = JSON.parse(localStorage.getItem('cart'));
-        const f = cart[0].resAddress;
-        setFrom(f)
-        setTo(t)
+        if( cart != null){
+            const   f = cart[0].resAddress;
+            setFrom(f)
+            setTo(t)
+
+        }
 
     },[])
 
