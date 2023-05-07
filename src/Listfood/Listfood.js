@@ -29,7 +29,7 @@ const Listfood = ({selectedCategory}) => {
         };
 
         axios
-            .post('http://localhost:8081/api/OrderUp/USER_GET_ITEMS',payload)
+            .post(process.env.REACT_APP_URL_USER_GET_ITEMS,payload)
             .then(response => {
                 // handle success
                 console.log(response);
